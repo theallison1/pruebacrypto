@@ -3,7 +3,7 @@ FROM ubuntu:22.04 AS builder
 # Evitar prompts interactivos durante la instalación
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar herramientas de compilación y dependencias obligatorias de XMRig
+# Instalar herramientas de compilación y dependencias obligatorias de XMRig (Parchado con libuv1-dev)
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libjansson-dev \
     libhwloc-dev \
+    libuv1-dev \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
@@ -34,12 +35,13 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar solo las librerías en tiempo de ejecución necesarias
+# Instalar solo las librerías en tiempo de ejecución necesarias (Añadido libuv1)
 RUN apt-get update && apt-get install -y \
     libcurl4 \
     libssl3 \
     libjansson4 \
     libhwloc15 \
+    libuv1 \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
